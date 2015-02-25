@@ -1,0 +1,26 @@
+- name: "Install rsyslog config"
+  template: >
+    src=rsyslog.conf.j2
+    dest=/etc/rsyslog.conf
+    owner=root
+    group=root
+    mode=0644
+  notify:
+    - Restart rsyslog
+  tags:
+    - rsyslog
+    - files
+
+- name: "Configure rsyslog for {{ service_name }}"
+  template: >
+    src={{ service_name }}.conf.j2
+    dest=/etc/rsyslog.d/{{ service_name }}.conf
+    mode=0644
+    owner=root
+    group=root
+    backup=yes
+  notify:
+    - Restart rsyslog
+  tags:
+    - rsyslog
+    - files

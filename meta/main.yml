@@ -1,0 +1,18 @@
+galaxy_info:
+  author: Emilien Kenler <ekenler@wizcorp.jp>
+  description: Manage the rsyslog configuration.
+  company: Wizcorp K.K.
+  license: MIT
+  min_ansible_version: 1.8.1
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - wheezy
+  categories:
+    - system
+    - monitoring
+allow_duplicates: yes
+dependencies: []

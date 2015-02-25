@@ -1,0 +1,9 @@
+$template zookeeper,"%HOSTNAME% %syslogtag% %msg%"
+
+$InputFileName /var/log/zookeeper/zookeeper.log
+$InputFileTag zookeeper:
+$InputFileStateFile zookeeper
+$InputFileReadMode 2
+$InputRunFileMonitor
+
+$InputFilePollInterval 5

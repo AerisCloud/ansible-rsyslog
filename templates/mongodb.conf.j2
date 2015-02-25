@@ -1,0 +1,9 @@
+$template mongodb,"%HOSTNAME% %syslogtag% %msg%"
+
+$InputFileName /var/log/mongodb/mongod.log
+$InputFileTag mongodb:
+$InputFileStateFile mongodb
+$InputFileReadMode 2
+$InputRunFileMonitor
+
+$InputFilePollInterval 5

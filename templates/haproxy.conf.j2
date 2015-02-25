@@ -1,0 +1,8 @@
+$ModLoad imudp
+$UDPServerRun 514
+$UDPServerAddress 127.0.0.1
+
+# Below, the tilde tells rsyslog to drop all logs that were filtered out by the ":syslogtag" command.
+# The ampersand connects the 2 lines.
+:syslogtag, startswith, "haproxy" /var/log/haproxy.log
+& ~
