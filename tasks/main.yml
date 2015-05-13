@@ -11,10 +11,10 @@
     - rsyslog
     - files
 
-- name: "Configure rsyslog for {{ service_name }}"
+- name: "Configure rsyslog for {{ role_name }}"
   template: >
-    src={{ service_name }}.conf.j2
-    dest=/etc/rsyslog.d/{{ service_name }}.conf
+    src=../../{{ role_name }}/templates/rsyslog.j2
+    dest=/etc/rsyslog.d/{{ role_name }}.conf
     mode=0644
     owner=root
     group=root
