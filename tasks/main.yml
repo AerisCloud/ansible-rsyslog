@@ -1,3 +1,7 @@
+- name: 'Check that rsyslog is installed'
+  stat: path=/etc/rsyslog.conf
+  register: rsyslog_conf
+
 - name: "Install rsyslog config"
   template: >
     src=rsyslog.conf.j2
@@ -7,6 +11,7 @@
     mode=0644
   notify:
     - Restart rsyslog
+  when: rsyslog_conf.stat.exists == True
   tags:
     - rsyslog
     - files
@@ -21,6 +26,7 @@
     backup=yes
   notify:
     - Restart rsyslog
+  when: rsyslog_conf.stat.exists == True
   tags:
     - rsyslog
     - files
