@@ -66,7 +66,7 @@ local7.*                                                /var/log/boot.log
 
 {% if logstash_forwarder is defined %}
 # Forward to logstash
-*.* @{{ hostvars[logstash_forwarder]['ansible_ssh_host'] }}:514
+*.* @{{ hostvars[logstash_forwarder]['private_ip']|default(hostvars[logstash_forwarder]['ansible_ssh_host']) }}:514
 {% endif %}
 
 # ### begin forwarding rule ###
