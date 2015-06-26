@@ -24,3 +24,6 @@ Variables
 If `logstash_forwarder` is set to the name of one of the machine in the inventory,
 `rsyslog` will forward the logs to this machine.
 
+In addition to setting `logstash_forward`, if `private_ip` is set, `rsyslog` will forward 
+to this IP address. Default is the `ansible_ssh_host` of the `logstash_forwarder`. This is
+useful when the `logstash_forwarder` have multiple IPs, such as global and private IPs.
