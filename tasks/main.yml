@@ -1,33 +1,32 @@
 - name: 'Check that rsyslog is installed'
   stat: path=/etc/rsyslog.conf
   register: rsyslog_conf
-
-- name: "Install rsyslog config"
-  template: >
-    src=rsyslog.conf.j2
-    dest=/etc/rsyslog.conf
-    owner=root
-    group=root
-    mode=0644
-  when: ansible_distribution != 'Debian' and ansible_distribution_release != 'jessie'
-  notify:
-    - Restart rsyslog
-  when: rsyslog_conf.stat.exists == True
   tags:
     - rsyslog
     - files
 
-- name: "Install rsyslog config"
-  template: >
-    src=rsyslog.conf.8.j2
+- name: "Set PreserverFQDN on"
+  lineinfile: >
     dest=/etc/rsyslog.conf
-    owner=root
-    group=root
-    mode=0644
-  when: ansible_distribution == 'Debian' and ansible_distribution_release == 'jessie'
+    regexp='^\$PreserveFQDN'
+    line='$PreserveFQDN on'
+    state=present
+  when: rsyslog_conf.stat.exists|bool
   notify:
     - Restart rsyslog
-  when: rsyslog_conf.stat.exists == True
+  tags:
+    - rsyslog
+    - files
+
+- name: "Set forwarding to logstash"
+  lineinfile: >
+    dest=/etc/rsyslog.conf
+    regexp="^\*\.\* @{{ hostvars[logstash_forwarder]['private_ip']|default(hostvars[logstash_forwarder]['ansible_ssh_host']) }}:{{ logstash_syslog_port|default('514') }}"
+    line="*.* @{{ hostvars[logstash_forwarder]['private_ip']|default(hostvars[logstash_forwarder]['ansible_ssh_host']) }}:{{ logstash_syslog_port|default('514') }}"
+    state=present
+  when: rsyslog_conf.stat.exists|bool and logstash_forwarder is defined
+  notify:
+    - Restart rsyslog
   tags:
     - rsyslog
     - files
@@ -42,7 +41,7 @@
     backup=yes
   notify:
     - Restart rsyslog
-  when: rsyslog_conf.stat.exists == True
+  when: rsyslog_conf.stat.exists|bool
   tags:
     - rsyslog
     - files

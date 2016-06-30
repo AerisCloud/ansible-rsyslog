@@ -27,3 +27,6 @@ If `logstash_forwarder` is set to the name of one of the machine in the inventor
 In addition to setting `logstash_forward`, if `private_ip` is set, `rsyslog` will forward 
 to this IP address. Default is the `ansible_ssh_host` of the `logstash_forwarder`. This is
 useful when the `logstash_forwarder` have multiple IPs, such as global and private IPs.
+
+If `logstash_syslog_port` is set, rsyslog will send to the `logstash_forwarder` on that port.
+The default port is `514`. This is useful if logstash is not running as root and cannot listen on ports 0-1024.
