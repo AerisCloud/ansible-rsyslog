@@ -1,0 +1,4 @@
+use_papertrail: false
+papertrail_bundle: /etc/papertrail-bundle.pem
+logstash_forwarder: ''
+papertrail_pem_checksum: ba3b40a34ec33ac0869fa5b17a0c80fc
