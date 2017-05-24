@@ -24,9 +24,16 @@
     regexp="^\*\.\* @{{ hostvars[logstash_forwarder]['private_ip']|default(hostvars[logstash_forwarder]['ansible_ssh_host']) }}:{{ logstash_syslog_port|default('514') }}"
     line="*.* @{{ hostvars[logstash_forwarder]['private_ip']|default(hostvars[logstash_forwarder]['ansible_ssh_host']) }}:{{ logstash_syslog_port|default('514') }}"
     state=present
-  when: rsyslog_conf.stat.exists|bool and logstash_forwarder is defined
+  when: rsyslog_conf.stat.exists|bool and logstash_forwarder != ''
   notify:
     - Restart rsyslog
+  tags:
+    - rsyslog
+    - files
+
+- name: "Set Papertrail"
+  include: papertrail.yml
+  when: use_papertrail|bool and logstash_forwarder == ''
   tags:
     - rsyslog
     - files

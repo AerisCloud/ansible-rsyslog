@@ -30,3 +30,12 @@ useful when the `logstash_forwarder` have multiple IPs, such as global and priva
 
 If `logstash_syslog_port` is set, rsyslog will send to the `logstash_forwarder` on that port.
 The default port is `514`. This is useful if logstash is not running as root and cannot listen on ports 0-1024.
+
+If you are not using a centralized log forwarding service and would like to have rsyslog on each server to
+send logs directly to [Papertrail](https://papertrailapp.com/), set the following:
+  - set `use_papertrail` to `true`. Default is false.
+  - set `papertrail_host` to the [Papertrail log destination](https://papertrailapp.com/account/destinations). An
+    account is required.
+  - set `papertrail_port` to the [Papertrail port](https://papertrailapp.com/account/destinations) given.
+  - `logstash_forwarder` defaults to an empty string, `''`. If it is defined, `rsyslog` will forward the logs to this machine.
+  - set `papertrail_pem` to the full path of the papertrail-bundle.pem file. Default: `/etc/papertrail-bundle.pem`.
