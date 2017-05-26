@@ -21,6 +21,10 @@ You role must contain a template file named `rsyslog.j2` which will be copied on
 Variables
 ---------
 
+When `use_rsyslog_udp` is set to `true`, rsyslog will provides UDP syslog reception. Default is `false`.
+The default UDP listening port is `514`. Set `use_rsyslog_udp_port` to change the port.
+
+
 If `logstash_forwarder` is set to the name of one of the machine in the inventory,
 `rsyslog` will forward the logs to this machine.
 
