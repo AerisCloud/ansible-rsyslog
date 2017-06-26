@@ -6,11 +6,11 @@
     - files
 
 - name: "Set PreserverFQDN on"
-  lineinfile: >
-    dest=/etc/rsyslog.conf
-    regexp='^\$PreserveFQDN'
-    line='$PreserveFQDN on'
-    state=present
+  lineinfile:
+    dest: /etc/rsyslog.conf
+    regexp: '^\$PreserveFQDN'
+    line: '$PreserveFQDN on'
+    state: present
   when: rsyslog_conf.stat.exists|bool
   notify:
     - Restart rsyslog
@@ -19,12 +19,12 @@
     - files
 
 - name: "Set rsyslog to listen on UDP"
-  template: >
-    src=00_udp_server.conf.j2
-    dest=/etc/rsyslog.d/00_udp_server.conf
-    mode=0644
-    owner=root
-    group=root
+  template:
+    src: 00_udp_server.conf.j2
+    dest: /etc/rsyslog.d/00_udp_server.conf
+    mode: 0644
+    owner: root
+    group: root
   when: use_rsyslog_udp|bool and rsyslog_conf.stat.exists|bool
   notify:
     - Restart rsyslog
@@ -33,9 +33,9 @@
     - files
 
 - name: "Set rsyslog to not listen on UDP"
-  file: >
-    dest=/etc/rsyslog.d/00_udp_server.conf
-    state=absent
+  file:
+    dest: /etc/rsyslog.d/00_udp_server.conf
+    state: absent
   when: not use_rsyslog_udp|bool and rsyslog_conf.stat.exists|bool
   notify:
     - Restart rsyslog
@@ -44,11 +44,11 @@
     - files
 
 - name: "Set forwarding to logstash"
-  lineinfile: >
-    dest=/etc/rsyslog.conf
-    regexp="^\*\.\* @{{ hostvars[logstash_forwarder]['private_ip']|default(hostvars[logstash_forwarder]['ansible_ssh_host']) }}:{{ logstash_syslog_port|default('514') }}"
-    line="*.* @{{ hostvars[logstash_forwarder]['private_ip']|default(hostvars[logstash_forwarder]['ansible_ssh_host']) }}:{{ logstash_syslog_port|default('514') }}"
-    state=present
+  lineinfile:
+    dest: /etc/rsyslog.conf
+    regexp: '^\*\.\* @{{ hostvars[logstash_forwarder]["private_ip"]|default(hostvars[logstash_forwarder]["ansible_ssh_host"]) }}:{{ logstash_syslog_port|default("514") }}'
+    line: "*.* @{{ hostvars[logstash_forwarder]['private_ip']|default(hostvars[logstash_forwarder]['ansible_ssh_host']) }}:{{ logstash_syslog_port|default('514') }}"
+    state: present
   when: rsyslog_conf.stat.exists|bool and logstash_forwarder != ''
   notify:
     - Restart rsyslog
@@ -64,13 +64,13 @@
     - files
 
 - name: "Configure rsyslog for {{ role_name }}"
-  template: >
-    src=../../{{ role_name }}/templates/rsyslog.j2
-    dest=/etc/rsyslog.d/{{ role_name }}.conf
-    mode=0644
-    owner=root
-    group=root
-    backup=yes
+  template:
+    src: "../../{{ role_name }}/templates/rsyslog.j2"
+    dest: "/etc/rsyslog.d/{{ role_name }}.conf"
+    mode: 0644
+    owner: root
+    group: root
+    backup: yes
   notify:
     - Restart rsyslog
   when: rsyslog_conf.stat.exists|bool
