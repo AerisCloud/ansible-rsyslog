@@ -46,8 +46,8 @@
 - name: "Set forwarding to logstash"
   lineinfile:
     dest: /etc/rsyslog.conf
-    regexp: '^\*\.\* @{{ hostvars[logstash_forwarder]["private_ip"]|default(hostvars[logstash_forwarder]["ansible_ssh_host"]) }}:{{ logstash_syslog_port|default("514") }}'
-    line: "*.* @{{ hostvars[logstash_forwarder]['private_ip']|default(hostvars[logstash_forwarder]['ansible_ssh_host']) }}:{{ logstash_syslog_port|default('514') }}"
+    regexp: '^\*\.\* @{{ hostvars[logstash_forwarder]["private_ip"]|default(hostvars[logstash_forwarder]["ansible_host"]) }}:{{ logstash_syslog_port|default("514") }}'
+    line: "*.* @{{ hostvars[logstash_forwarder]['private_ip']|default(hostvars[logstash_forwarder]['ansible_host']) }}:{{ logstash_syslog_port|default('514') }}"
     state: present
   when: rsyslog_conf.stat.exists|bool and logstash_forwarder != ''
   notify:
