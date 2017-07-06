@@ -13,7 +13,7 @@ In your role's meta, add a dependency to this role using the syntax described be
 # my_role/meta/main.yml
 dependencies:
   - role: aerisloud.rsyslog
-    role_name: my_role
+    caller_name: my_role
 ```
 
 You role must contain a template file named `rsyslog.j2` which will be copied on the server.

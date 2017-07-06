@@ -63,10 +63,10 @@
     - rsyslog
     - files
 
-- name: "Configure rsyslog for {{ role_name }}"
+- name: "Configure rsyslog for {{ caller_name }}"
   template:
-    src: "../../{{ role_name }}/templates/rsyslog.j2"
-    dest: "/etc/rsyslog.d/{{ role_name }}.conf"
+    src: "roles/{{ caller_name }}/templates/rsyslog.conf.j2"
+    dest: "/etc/rsyslog.d/{{ caller_name }}.conf"
     mode: 0644
     owner: root
     group: root
