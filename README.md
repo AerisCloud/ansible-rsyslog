@@ -16,7 +16,7 @@ dependencies:
     caller_name: my_role
 ```
 
-You role must contain a template file named `rsyslog.j2` which will be copied on the server.
+Your role must contain a template file named `rsyslog.conf.j2` which will be copied on to the server.
 
 Variables
 ---------
