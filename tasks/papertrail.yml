@@ -35,10 +35,10 @@
     - files
 
 - name: "Papertrail - Download papertrail-bundle.pem"
-  get_url: >
-    url='https://papertrailapp.com/tools/papertrail-bundle.pem'
-    dest="{{ papertrail_pem }}"
-    mode=0444
+  get_url:
+    url: 'https://papertrailapp.com/tools/papertrail-bundle.pem'
+    dest: "{{ papertrail_pem }}"
+    mode: 0444
   when: use_papertrail|bool and logstash_forwarder == ''
   notify:
     - "Restart rsyslog"
@@ -63,9 +63,9 @@
     - files
 
 - name: "Upload /etc/rsyslog.d/papertrail.conf"
-  template: >
-    dest=/etc/rsyslog.d/papertrail.conf
-    src="papertrail.conf.j2"
+  template:
+    dest: /etc/rsyslog.d/papertrail.conf
+    src: "papertrail.conf.j2"
     owner: root
     group: root
     mode: 0644
@@ -77,11 +77,11 @@
     - files
 
 - name: "Set forwarding (with TLS) in /etc/rsyslog.conf. 6"
-  lineinfile: >
-    dest=/etc/rsyslog.conf
-    regexp="^\*\.\* @@{{ papertrail_host }}:{{ papertrail_port }}"
-    line="*.* @@{{ papertrail_host }}:{{ papertrail_port }}"
-    state=present
+  lineinfile:
+    dest: /etc/rsyslog.conf
+    regexp: '^\*\.\* @@{{ papertrail_host }}:{{ papertrail_port }}'
+    line: "*.* @@{{ papertrail_host }}:{{ papertrail_port }}"
+    state: present
   when: use_papertrail|bool and logstash_forwarder == '' and rsyslog_conf.stat.exists|bool
   notify:
     - "Restart rsyslog"
